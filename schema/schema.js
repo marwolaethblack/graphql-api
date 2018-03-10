@@ -3,6 +3,7 @@ const {
     GraphQLObjectType,
     GraphQLString,
     GraphQLID,
+    GraphQLList,
     GraphQLSchema
 } = graphql;
 
@@ -32,6 +33,14 @@ module.exports = (User) => {
                         .catch(error => console.log(error))
                 }
 
+            },
+            users: {
+                type: GraphQLList(UserType),
+                resolve(parentValue, args) {
+                    return User.findAll()
+                        .then(u => u)
+                        .catch(e => console.log(e));
+                }
             }
         }
     })
