@@ -2,7 +2,7 @@
   "name": "graphql-api",
   "version": "1.0.0",
   "description": "GraphQL api using postgress for persistence",
-  "main": "index.js",
+  "main": "server.js",
   "author": "Adnan Unal",
   "license": "MIT",
   "dependencies": {
