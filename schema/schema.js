@@ -4,6 +4,7 @@ const {
     GraphQLString,
     GraphQLID,
     GraphQLList,
+    GraphQLNonNull,
     GraphQLSchema
 } = graphql;
 
@@ -45,8 +46,28 @@ module.exports = (User) => {
         }
     })
 
+    const mutation = new GraphQLObjectType({
+        name: 'Mutation',
+        fields: {
+            addUser: {
+                type: UserType,
+                args: {
+                    email: { type: new GraphQLNonNull(GraphQLString) },
+                    password: { type: new GraphQLNonNull(GraphQLString) }
+                },
+                resolve(parentValue,args) {
+                    return User.create({...args})
+                        .then(u => u)
+                        .catch(e => console.log(e))
+                }
+            }
+
+        }
+    })
+
     return new GraphQLSchema({
-        query: RootQuery
+        query: RootQuery,
+        mutation
     })
 }
 
