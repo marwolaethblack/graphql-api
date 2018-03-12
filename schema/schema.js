@@ -31,7 +31,10 @@ module.exports = (User) => {
                             console.log(u.dataValues);
                             return u.dataValues;
                         })
-                        .catch(error => console.log(error))
+                        .catch(e => {
+                            console.log(e);
+                            return e;
+                        });
                 }
 
             },
@@ -40,7 +43,11 @@ module.exports = (User) => {
                 resolve(parentValue, args) {
                     return User.findAll()
                         .then(u => u)
-                        .catch(e => console.log(e));
+                        .catch(e => {
+                            console.log(e);
+                            return e;
+                        });
+
                 }
             }
         }
@@ -58,7 +65,10 @@ module.exports = (User) => {
                 resolve(parentValue,args) {
                     return User.create({...args})
                         .then(u => u)
-                        .catch(e => console.log(e))
+                        .catch(e => {
+                            console.log(e);
+                            return(e);
+                        })
                 }
             }
 
