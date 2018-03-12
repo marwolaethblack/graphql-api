@@ -30,6 +30,9 @@ app.get('/', (req, res) => {
     .catch(err => {
         res.json(err);
     })
+
+
+
 })
 
 sequelize.sync().then(function() {
