@@ -5,12 +5,16 @@
   "main": "server.js",
   "author": "Adnan Unal",
   "license": "MIT",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
   "dependencies": {
     "bcrypt": "^1.0.3",
     "compression": "^1.7.2",
     "express": "^4.16.2",
     "express-graphql": "^0.6.12",
     "graphql": "^0.13.1",
+    "jsonwebtoken": "^8.2.0",
     "pg": "^7.4.1",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.35.5",

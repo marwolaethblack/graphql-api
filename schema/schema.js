@@ -14,6 +14,7 @@ module.exports = (User) => {
         fields: {
             id: { type:GraphQLID },
             email: { type:GraphQLString },
+            token: { type: GraphQLString },
             createdAt:{ type:GraphQLString },
             updatedAt:{ type:GraphQLString },
         }
