@@ -41,7 +41,8 @@ module.exports = (User) => {
             },
             users: {
                 type: GraphQLList(UserType),
-                resolve(parentValue, args) {
+                resolve(parentValue, args, context) {
+                    console.log(context.request.headers);
                     return User.findAll()
                         .then(u => u)
                         .catch(e => {

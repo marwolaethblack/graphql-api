@@ -15,10 +15,16 @@ const { sequelize, User } = require('./models');
 const expressGraphQL = require('express-graphql');
 const schema = require('./schema/schema')(User);
 
-app.use('/graphql', expressGraphQL(({
-    graphiql: true,
-    schema
-})));
+app.use('/graphql',
+    expressGraphQL((request, response, graphQLParams) => ({
+        graphiql: true,
+        schema,
+        context: {
+            request,
+            test: 'Example context value'
+        }
+    })
+));
 
 
 
