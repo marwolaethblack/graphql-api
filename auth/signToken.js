@@ -3,7 +3,7 @@ const config = require('./config');
 const { User } = require('../models');
 
 
-const signup = function(userData) {
+const signToken = (userData) => {
 
     const { id, email } = userData;
 
@@ -17,6 +17,8 @@ const signup = function(userData) {
 
 
 }
+
+module.exports = signToken;
 
 
 // const token = signup({id:5, email: "AAA@AAA"});
