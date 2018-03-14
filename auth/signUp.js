@@ -13,7 +13,7 @@ const signUp = async (userInfo) => {
 
         const createdUser = await User.create({...userInfo});
         const userData = createdUser.dataValues;
-        userData.token = signToken(userData);
+        userData.token = await signToken(userData);
         return userData;
 
     } catch(error) {

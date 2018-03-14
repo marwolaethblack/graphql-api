@@ -13,7 +13,7 @@ const signIn = async (userInfo) => {
         const passwordMatch = await foundUser.comparePasswords(password);
         if(passwordMatch) {
             const userData = foundUser.dataValues;
-            userData.token = signToken(userData);
+            userData.token = await signToken(userData);
             return userData;
         } else {
             throw new Error("Wrong credentials");

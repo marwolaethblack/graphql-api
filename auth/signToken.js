@@ -1,29 +1,23 @@
 const jwt = require("jsonwebtoken");
 const config = require('./config');
-const { User } = require('../models');
 
 
 const signToken = (userData) => {
 
-    const { id, email } = userData;
-
-    return jwt.sign(
-        { id, email },
-        config.secret,
-        { expiresIn: '7d',
-          issuer: config.issuer
-        })
-
-
-
+    return new Promise((resolve, reject) => {
+        const { id, email } = userData;
+        jwt.sign(
+            { id, email },
+            config.secret,
+            { expiresIn: '7d', issuer: config.issuer},
+            (error, token) => {
+                if(error) {
+                    reject(error);
+                } else {
+                    resolve(token)
+                }
+            })
+    })
 }
 
 module.exports = signToken;
-
-
-// const token = signup({id:5, email: "AAA@AAA"});
-//
-// jwt.verify(token, config.secret, { issuer: config.issuer }, function(err, decodedPayload) {
-//    console.log(err.message);
-//    console.log(decodedPayload);
-// });
