@@ -13,7 +13,7 @@ const { sequelize, User } = require('./models');
 
 //GraphQL dependencies
 const expressGraphQL = require('express-graphql');
-const schema = require('./schema/schema')(User);
+const schema = require('./schema/schema');
 
 app.use('/graphql',
     expressGraphQL((request, response, graphQLParams) => ({

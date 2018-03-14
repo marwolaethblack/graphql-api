@@ -29,7 +29,11 @@ module.exports = (sequelize, Sequelize) => {
     User.beforeCreate((user, options) => {
         return bcrypt.hash(user.password, saltRounds)
                 .then(hash => user.password = hash)
-                .catch(err => console.log(err))
+                .catch(err => {
+                    console.log(err);
+                    return err;
+                })
+
 
     })
 
@@ -37,7 +41,10 @@ module.exports = (sequelize, Sequelize) => {
         if(user.changed('password')) {
             return bcrypt.hash(user.password, saltRounds)
                 .then(hash => user.password = hash)
-                .catch(err => console.log(err))
+                .catch(err => {
+                    console.log(err);
+                    return err;
+                })
         }
     })
 

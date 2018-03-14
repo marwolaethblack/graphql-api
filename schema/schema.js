@@ -10,15 +10,16 @@ const {
 
 const UserType = require('./types/UserType');
 
-module.exports = (User) => {
 
-    const RootQuery = require('./rootQuery')(User);
+const RootQuery = require('./rootQuery');
 
-    const mutation = require('./mutations')(User);
+const mutation = require('./mutations');
 
-    return new GraphQLSchema({
-        query: RootQuery,
-        mutation
-    })
-}
+const schema = new GraphQLSchema({
+    query: RootQuery,
+    mutation
+})
+
+module.exports = schema;
+
 

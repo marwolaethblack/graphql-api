@@ -5,91 +5,39 @@ const {
     GraphQLNonNull,
 } = graphql;
 
+const {User} = require('../models');
 const UserType = require('./types/UserType');
 const AuthService = require('../auth');
 
 
-module.exports = (User) => {
-
-    const mutation = new GraphQLObjectType({
-        name: 'Mutation',
-        fields: {
-            signup: {
-                type: UserType,
-                args: {
-                    email: { type: new GraphQLNonNull(GraphQLString) },
-                    password: { type: new GraphQLNonNull(GraphQLString) }
-                },
-                resolve(parentValue,{ email, password }) {
-
-                    return User.findOne({where: { email }})
-                        .then(foundUser => {
-                            if(foundUser) {
-                                throw new Error("User already exists")
-                            }
-
-                            return User.create({email, password})
-                                .then(u => {
-                                    const newUser = u.dataValues;
-                                    newUser.token = AuthService.signToken(u);
-                                    return newUser;
-
-                                })
-                                .catch(e => {
-                                    console.log(e);
-                                    return(e);
-                                })
-
-                        })
-                        .catch(e => {
-                            console.log(e);
-                            return e;
-                        })
-                }
+const mutation = new GraphQLObjectType({
+    name: 'Mutation',
+    fields: {
+        signUp: {
+            type: UserType,
+            args: {
+                email: {type: new GraphQLNonNull(GraphQLString)},
+                password: {type: new GraphQLNonNull(GraphQLString)}
             },
-
-            signin: {
-                type: UserType,
-                args: {
-                    email: { type: new GraphQLNonNull(GraphQLString) },
-                    password: { type: new GraphQLNonNull(GraphQLString) }
-                },
-                resolve(parentValue, { email, password }) {
-
-                    return User.findOne({where: { email }})
-                        .then(foundUser => {
-                            if(!foundUser) {
-                                throw new Error("Wrong credentials")
-                            }
-
-                            return foundUser.comparePasswords(password)
-                                .then(res => {
-                                    if(res) {
-                                        const userData = foundUser.dataValues;
-                                        userData.token = AuthService.signToken(userData);
-                                        return userData;
-                                    } else {
-                                        throw new Error("Wrong credentials");
-                                    }
-
-                                })
-                                .catch(e => {
-                                    console.log(e);
-                                    return e;
-                                })
-                        })
-                        .catch(e => {
-                            console.log(e);
-                            return e;
-                        })
-                }
+            resolve(parentValue, args) {
+              return AuthService.signUp(args);
             }
+        },
 
-
-
+        signIn: {
+            type: UserType,
+            args: {
+                email: {type: new GraphQLNonNull(GraphQLString)},
+                password: {type: new GraphQLNonNull(GraphQLString)}
+            },
+            resolve(parentValue, args) {
+                return AuthService.signIn(args);
+            }
         }
-    })
 
-    return mutation;
-}
+
+    }
+})
+
+module.exports = mutation;
 
