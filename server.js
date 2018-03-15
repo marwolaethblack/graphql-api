@@ -28,19 +28,6 @@ app.use('/graphql',
 
 
 
-app.get('/', (req, res) => {
-    User.findAll()
-    .then(temps => {
-        res.json(temps);
-    })
-    .catch(err => {
-        res.json(err);
-    })
-
-
-
-})
-
 sequelize.sync().then(function() {
     http.createServer(app).listen(app.get('port'), function(){
         console.log('Express server listening on port ' + app.get('port'));

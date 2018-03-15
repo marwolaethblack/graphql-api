@@ -10,6 +10,7 @@ const {
 
 const {User} = require('../models');
 const UserType = require('./types/UserType');
+const AuthService = require('../auth');
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
@@ -41,6 +42,24 @@ const RootQuery = new GraphQLObjectType({
                         return e;
                     });
 
+            }
+        },
+        protectedQuery: {
+            type: GraphQLString,
+            resolve(parentValue, args, context) {
+                const token = AuthService.extractTokenFromHeader(context);
+
+                return AuthService.verifyToken(token)
+                    .then(res => {
+                        if(res) {
+                            return "Welcome to the protected query";
+                        } else {
+                            return "Invalid token"
+                        }
+                    })
+                    .catch(e => {
+                        return e;
+                    })
             }
         }
     }
